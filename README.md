@@ -1,4 +1,4 @@
-# Developer Documentation: AKS Cluster Infrastructure
+# AKS Cluster Infrastructure
 
 ## Overview
 
