@@ -15,7 +15,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/kubernetes/ingress-nginx
-        targetRevision: controller-v1.7.0  # Replace <version> with the specific version you want
+        targetRevision: controller-v1.12.0  # Replace <version> with the specific version you want
         path: deploy/static/provider/cloud
       destination:
         server: '{{ .server }}'
