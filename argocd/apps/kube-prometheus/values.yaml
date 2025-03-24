@@ -37,18 +37,18 @@ prometheus:
       - secretName: prometheus-general-tls
         hosts:
           - test-cluster.josepperna.com
-  prometheusSpec:
-    additionalScrapeConfigs:
-      - job_name: 'eck-operator'
-        kubernetes_sd_configs:
-          - role: endpoints
-            namespaces:
-              names:
-                - elastic-system
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_label_control_plane]
-            regex: elastic-operator
-            action: keep
-          # - source_labels: [__meta_kubernetes_endpoint_port_name]
-          #   regex: http-metrics
-          #   action: keep
+  # prometheusSpec:
+  #   additionalScrapeConfigs:
+  #     - job_name: 'eck-operator'
+  #       kubernetes_sd_configs:
+  #         - role: endpoints
+  #           namespaces:
+  #             names:
+  #               - elastic-system
+  #       relabel_configs:
+  #         - source_labels: [__meta_kubernetes_service_label_control_plane]
+  #           regex: elastic-operator
+  #           action: keep
+  #         - source_labels: [__meta_kubernetes_endpoint_port_name]
+  #           regex: http-metrics
+  #           action: keep

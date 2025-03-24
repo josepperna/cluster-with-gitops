@@ -32,3 +32,5 @@ spec:
               config:
                 metrics:
                   port: "8080"
+                  secureMode:
+                    enabled: true
