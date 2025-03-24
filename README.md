@@ -4,6 +4,8 @@
 
 This documentation provides developers with an overview of the Kubernetes infrastructure deployed on Azure Kubernetes Service (AKS). The infrastructure is provisioned using Terraform, and application deployments are managed through ArgoCD.
 
+![Cluster Architecture](images/diagram.png)
+
 ## Deployed Components
 
 ### Kubernetes Cluster (AKS)
@@ -72,4 +74,9 @@ argocd app create cluster-bootstrap --repo https://github.com/josepperna/cluster
 - **Node Memory Usage (%)**:
 ```promql
 (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+```
+
+- **Elastic Memory Used (Gb)**:
+```promql
+elastic_licensing_memory_gibibytes_total
 ```
