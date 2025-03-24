@@ -25,7 +25,7 @@ spec:
           - ServerSideApply=true
       sources:
         - ref: values
-          repoURL: https://gitlab.com/neural-concept/nc-workspaces-deployment.git
+          repoURL: https://github.com/josepperna/cluster-with-gitops.git
           targetRevision: master 
         - repoURL: https://prometheus-community.github.io/helm-charts
           chart: kube-prometheus-stack

@@ -30,7 +30,7 @@ spec:
             - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "control-plane")
             - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "kubernetes.azure.com/managedby")
       sources:
-        - repoURL: https://gitlab.com/neural-concept/nc-workspaces-deployment.git
+        - repoURL: https://github.com/josepperna/cluster-with-gitops.git
           path: argocd/apps/cert-manager
           targetRevision: master 
         - repoURL: https://charts.jetstack.io
