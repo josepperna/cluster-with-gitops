@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - clusters: {}
+  template:
+    metadata:
+      name: '{{.name}}-kube-prometheus' # 'name' field of the Secret
+    spec:
+      project: default
+      destination:
+        server: '{{ .server }}'
+        namespace: monitoring
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+      sources:
+        - ref: values
+          repoURL: https://gitlab.com/neural-concept/nc-workspaces-deployment.git
+          targetRevision: master 
+        - repoURL: https://prometheus-community.github.io/helm-charts
+          chart: kube-prometheus-stack
+          targetRevision: "65.2.0"  # specify version of the helm chart
+          helm:
+            valueFiles:
+              - $values/argocd/apps/kube-prometheus/values.yaml
+            values: |  # Inline Helm values
+              prometheus:
+                prometheusSpec:
+                  externalLabels: {cluster: "{{ .name }}"}

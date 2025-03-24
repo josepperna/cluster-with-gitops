@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - clusters: {}
+  template:
+    metadata:
+      name: '{{.name}}-cert-manager' # 'name' field of the Secret
+    spec:
+      project: default
+      destination:
+        server: '{{ .server }}'
+        namespace: cert-manager
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+      ignoreDifferences:
+        - group: admissionregistration.k8s.io
+          kind: ValidatingWebhookConfiguration
+          name: '{{.name}}-cert-manager-webhook'
+          jqPathExpressions:
+            - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "control-plane")
+            - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "kubernetes.azure.com/managedby")
+      sources:
+        - repoURL: https://gitlab.com/neural-concept/nc-workspaces-deployment.git
+          path: argocd/apps/cert-manager
+          targetRevision: master 
+        - repoURL: https://charts.jetstack.io
+          chart: cert-manager
+          targetRevision: "v1.12.0"  # specify version of the helm chart
+          helm:
+            values: |
+              installCRDs: true
