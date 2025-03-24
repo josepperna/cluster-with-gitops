@@ -24,7 +24,7 @@ spec:
           - CreateNamespace=true
       sources:
         - repoURL: https://helm.elastic.co
-          chart: elastic/eck-operator
+          chart: eck-operator
           targetRevision: "v2.16.1"  # specify version of the helm chart
           helm:
             values: |
