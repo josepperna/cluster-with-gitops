@@ -16,7 +16,7 @@ spec:
       source:
         repoURL: https://github.com/josepperna/cluster-with-gitops.git
         targetRevision: main 
-        path: argocd/apps/cert-manager
+        path: argocd/apps/ha-hello-world
       destination:
         server: '{{ .server }}'
         namespace: ha-hello-world
