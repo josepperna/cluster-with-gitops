@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: elastic
+  name: ha-hello-world
   namespace: argocd
 spec:
   goTemplate: true
@@ -10,25 +10,19 @@ spec:
   - clusters: {}
   template:
     metadata:
-      name: '{{.name}}-elastic' # 'name' field of the Secret
+      name: '{{.name}}-ha-hello-world'
     spec:
       project: default
+      source:
+        repoURL: https://github.com/josepperna/cluster-with-gitops.git
+        targetRevision: main 
+        path: argocd/apps/cert-manager
       destination:
         server: '{{ .server }}'
-        namespace: elastic-system
+        namespace: ha-hello-world
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-      sources:
-        - repoURL: https://helm.elastic.co
-          chart: eck-operator
-          targetRevision: "v2.16.1"  # specify version of the helm chart
-          helm:
-            values: |
-              installCRDs: true
-              config:
-                metrics:
-                  port: "8080"
