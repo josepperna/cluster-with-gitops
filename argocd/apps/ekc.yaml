@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: elastic
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - clusters: {}
+  template:
+    metadata:
+      name: '{{.name}}-elastic' # 'name' field of the Secret
+    spec:
+      project: default
+      destination:
+        server: '{{ .server }}'
+        namespace: elastic-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+      sources:
+        - repoURL: https://helm.elastic.co
+          chart: elastic/eck-operator
+          targetRevision: "v2.16.1"  # specify version of the helm chart
+          helm:
+            values: |
+              installCRDs: true
